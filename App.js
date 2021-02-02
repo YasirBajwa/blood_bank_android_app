@@ -23,13 +23,17 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import DonorForm from './screens/Form';
 import Home from './screens/Home';
+import List from './screens/List';
 
 const App = () => {
   return (
     <>
     <View style={{flex:1}}>
-     <Home/>
+     {/* <Home/> */}
+     {/* <List/> */}
+     <DonorForm/>
     </View>
     </>
   );
