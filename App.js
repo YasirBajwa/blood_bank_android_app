@@ -7,48 +7,25 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import { SafeAreaView, StyleSheet,ScrollView,View,Text,StatusBar,} from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
+import { Header, LearnMoreLinks, Colors, DebugInstructions,
+ ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import BloodList from './screens/BloodList';
 import DonorForm from './screens/Form';
 import Home from './screens/Home';
 import List from './screens/List';
-import CardHeaderFooterExample from './screens/Card'
-const App = () => {
+import {Provider as StoreProvider} from 'react-redux';
+import store from './store/store';
+import NavigationPage from './config/routes';
+
+
+export default function App() {
   return (
-    <>
-    <View style={{flex:1}}>
-     {/* <Home/> */}
-     {/* <List/> */}
-     {/* <DonorForm/> */}
-     <BloodList/>
-     {/* <CardHeaderFooterExample/> */}
-    </View>
-    </>
-  );
-};
+    <StoreProvider store={store}>
+      <NavigationPage/>
+    </StoreProvider>
+  )
+}
 
-const styles = StyleSheet.create({
-      header_style:{
-        // flex:1,
-        // justifyContent:'center',
-        // alignItems:'center',
-        // backgroundColor:'green'
-      }
-});
-
-export default App;

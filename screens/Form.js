@@ -23,12 +23,12 @@ const DonorForm = () =>{
             </Item>
             <Item floatingLabel last>
               <Label>Mobile Number</Label>
-              <Input />
+              <Input keyboardType={'number-pad'} />
             </Item>
             <PickerList/>
             <Item floatingLabel last>
               <Label>Number of Blood Units</Label>
-              <Input />
+              <Input keyboardType={'numeric'}/>
             </Item>
             <Item floatingLabel last>
               <Label>Enter City</Label>

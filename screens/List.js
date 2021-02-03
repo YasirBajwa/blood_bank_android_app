@@ -5,7 +5,7 @@ import {  SafeAreaView,StyleSheet,Image, ScrollView, View,Text,  StatusBar,} fro
 import Icon from 'react-native-vector-icons/Ionicons';
 // import Icon2 from 'react-native-vector-icons/FontAwesome';
 
-const List = () => {
+const List = ({navigation}) => {
   return (
     <View style={{flex:1}}>
       <View style={styles.header__title}>
@@ -19,7 +19,10 @@ const List = () => {
                    <Icon name="man" size={80}/>
                </View>
                <View>
-                  <Text style={styles.list__section__item1__content1__txt}> Find Blood </Text>
+                  <Text  style={styles.list__section__item1__content1__txt}
+                    title="Go to Card"
+                    onPress={() => navigation.navigate('BloodList')}
+                  > Find Blood </Text>
                    </View>
 
            </View>
@@ -28,7 +31,10 @@ const List = () => {
                    <Icon name="add-circle" size={80}/>
                </View>
                <View>
-                  <Text style={styles.list__section__item1__content2__txt}> Become Donor </Text>
+                  <Text style={styles.list__section__item1__content2__txt}
+                   title="Go to Card"
+                   onPress={() => navigation.navigate('Form')}
+                  > Become Donor </Text>
                    </View>
 
            </View>

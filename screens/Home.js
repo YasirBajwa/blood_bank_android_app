@@ -3,8 +3,9 @@
 import React from 'react';
 import {  SafeAreaView,StyleSheet,Image, ScrollView, View,Text,  StatusBar,} from 'react-native';
 import LogoImage from '../asset/images/sayalani-logo.png'
-
-const Home = () => {
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+const Home = ({ navigation }) => {
   return (
     
     <View style={{flex:1}}>
@@ -17,13 +18,18 @@ const Home = () => {
                </View>  
 
                <View>
-                 <Text style={styles.donate__blood}>DONATE BLOOD</Text>
+                 <Text style={styles.donate__blood} 
+                         title="Go to ListPage"
+                         onPress={() => navigation.navigate('List')}>
+                           DONATE BLOOD</Text>
                </View>
                <View>
                  <Text style={styles.blood__opt}>OR</Text>
                </View>
                <View>
-                 <Text style={styles.find__blood}>FIND BLOOD DONOR</Text>
+                 <Text style={styles.find__blood}
+                  title="Go to ListPage"
+                  onPress={() => navigation.navigate('List')}>FIND BLOOD DONOR</Text>
                </View>
       </View> 
       
