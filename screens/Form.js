@@ -1,9 +1,48 @@
-import React,{Component} from 'react';
-import {  SafeAreaView,StyleSheet,Image, ScrollView, View,Text,  StatusBar,} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { Container, Header, Content,Button, Form, Item, Input, Label } from 'native-base';
-import PickerList from './PickerList';
+import React,{Component,useState,useEffect} from 'react';
+import { StyleSheet,Button, ScrollView, View,Text} from 'react-native';
+import { Form, Item, Input, Label } from 'native-base';
+import firebase from '../config/firebase';
+
+
 const DonorForm = () =>{
+ 
+  const [name, setName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [bloodUnit, setBloodUnit] = useState("");
+  const [address,setAdress] = useState('');
+  const [city, setCity] = useState("");
+  const [bloodType,setBloodType] = useState('');
+
+
+
+  const handleSubmit = (evt) => {
+       evt.preventDefault();
+      let donor_data = {
+         name,
+         mobileNumber,
+         bloodUnit,
+         address,
+         city,
+         bloodType,
+      }
+      firebase.database().ref('/').child(`users/donor_data`).push(donor_data)
+      .then(()=>{
+        alert('Your Form has been submitted Sucessfully');
+       setName('');
+       setMobileNumber('');
+       setAdress('');
+       setCity('');
+       setBloodUnit('');
+       setBloodType('');
+      
+       
+    }).catch(function(error) {
+      var errorMessage = error.message;
+      alert('Sorry Your form could not be submitted',errorMessage)
+    
+    });
+}
+
 
      return(
          <ScrollView>
@@ -17,24 +56,31 @@ const DonorForm = () =>{
                  </View>
         <View style={styles.form__section__item2}>
           <Form style={styles.form__section__input}>
-            <Item floatingLabel  last>
+          <Item floatingLabel  last>
               <Label>Full Name</Label>
-              <Input />
+              <Input  value={name} onChangeText={text  => setName(text)} />
             </Item>
             <Item floatingLabel last>
               <Label>Mobile Number</Label>
-              <Input keyboardType={'number-pad'} />
+              <Input keyboardType={'numeric'} value={mobileNumber} onChangeText={text  => setMobileNumber(text)}  />
             </Item>
-            <PickerList/>
+            <Item floatingLabel  last>
+              <Label>Enter Your Blood group</Label>
+              <Input  value={bloodType} onChangeText={text  => setBloodType(text)} />
+            </Item>
             <Item floatingLabel last>
               <Label>Number of Blood Units</Label>
-              <Input keyboardType={'numeric'}/>
+              <Input keyboardType={'numeric'} value={bloodUnit} onChangeText={text  => setBloodUnit(text)} />
             </Item>
             <Item floatingLabel last>
-              <Label>Enter City</Label>
-              <Input />
+              <Label>Enter Your Address</Label>
+              <Input value={address} onChangeText={text  => setAdress(text)}  />
             </Item>
-            <Button style={styles.submit__btn} success><Text style={styles.submit__btn__txt}> SUBMIT </Text></Button>
+            <Item floatingLabel last>
+              <Label  >Enter City</Label>
+              <Input value={city} onChangeText={text  => setCity(text)} />
+            </Item>
+            <Button style={styles.submit__btn} title="submit" onPress={ (e) => handleSubmit(e)}/>
           </Form>
       </View>
 
@@ -76,7 +122,6 @@ const styles = StyleSheet.create({
         alignContent:'center',
         alignSelf:'center',
         width:'90%'
-        
                          
       },
       submit__btn:{
@@ -86,7 +131,10 @@ const styles = StyleSheet.create({
           alignSelf:'center',
           marginTop: 30,
           backgroundColor:'green',
-          justifyContent:'center'
+          justifyContent:'center',
+          color:'white',
+          fontSize:18,
+          marginTop:20
       },
       submit__btn__txt:{
           color:'#fff',

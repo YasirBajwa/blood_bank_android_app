@@ -1,10 +1,34 @@
 
 let INITIAL_STATE ={
-    name :'Yasir',
-    email: 'yasirbajwa369@gmail.com'
+//    users: [
+//        {
+//         name :'Yasir Bajwa',
+//         email: 'yasirbajwa369@gmail.com'
+//     },
+//     {
+//         name :'jhon',
+//         email: 'jhon@gmail.com'
+//     },
+//      ],
+     app_dat:[]
+    
 }
 
 
 export default (state = INITIAL_STATE,action) =>{
-            return state;
+
+              console.log('action in reducer ===>',action) 
+            //  switch (action.type) {
+            //      case 'SET_DATA':
+            //       return({
+            //           ...state,
+            //           users: [...state.users,action.data]   
+            //       })
+                  
+            //       default:
+            //         return state;
+
+                     
+            //  } 
+             
 }
