@@ -1,7 +1,7 @@
 
 
 import React,{useState,useEffect} from 'react';
-import {StyleSheet, ScrollView, View,Button,TouchableOpacity} from 'react-native';
+import {StyleSheet, ScrollView, View,TouchableOpacity,Alert,Modal} from 'react-native';
 import { Card, CardItem, Text, Body } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import firebase from '../config/firebase';
 
 const BloodList = (props) => {
+  const [modalVisible, setModalVisible] = useState(false);
   let [firebaseData,setFirebaseData] = useState([]);
  
   console.log('firebase data====>',firebaseData)
@@ -22,8 +23,47 @@ const BloodList = (props) => {
   },[])
   return (
     <ScrollView > 
-    <View style={{flex:1}} >
+{/* Modal */}
+     <View >
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.modal__section}>
+               <View style={styles.modal__section__content1}>
+                 <Icon name="alert-circle" size={60} style={{color:'orange'}}/>
+                   </View>
+                   <View style={styles.modal__section__content2}>
+                    <Text>You need to login to view the donor details</Text>
 
+                   </View>
+                   <View style={styles.modal__section__content3}>
+                   <TouchableOpacity style={styles.modal__section__content3__btn}>
+                    <Text style={styles.modal__section__content3__btn__txt}>Sign in with Google</Text>
+                   </TouchableOpacity>
+                   </View>
+
+                   <View style={styles.modal__section__content4}>
+                   <TouchableOpacity style={styles.modal__section__content4__btn}
+                     onPress={() => {
+                     setModalVisible(!modalVisible);
+                     }}>
+                    <Text style={styles.modal__section__content4__btn__txt}>CANCEL</Text>
+                   </TouchableOpacity>
+                   </View>
+                    </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
+{/* End of Modal */}
+    <View style={{flex:1}} >
     <View style={{flex:1}}>
       <View style={styles.header__title}>
         <Text style={styles.header__title__text}> SAYALNI BLOOD BANK</Text>
@@ -37,9 +77,14 @@ const BloodList = (props) => {
      </View>
     {
       firebaseData && Object.values(firebaseData).map( (data,index) =>{
-            return <View style={styles.blood__card__section} key={index} >
+            return <View style={styles.blood__card__section} key={index} 
+                 
+            >
               {/* onStartShouldSetResponder={() => props.set_data()} */}
-            <Card style={styles.blood__card__box}>
+            <Card style={styles.blood__card__box}
+               
+      
+            >
               <CardItem style={styles.blood__card__box__header} header>
                <View style={styles.blood__card__box__header__c1}>
                <View>
@@ -68,7 +113,12 @@ const BloodList = (props) => {
                      </View>
                  </View>
                  <View style={styles.blood__card__box__body__c2}>
-                  <Icon style={styles.blood__card__box__body__c2__icon} name="call" size={40}/>
+                  <Icon style={styles.blood__card__box__body__c2__icon} name="call" size={40}
+                      onPress={() => {
+                      setModalVisible(true);
+              }
+              }
+                  />
                  </View>
                  </View>
                </Body>
@@ -174,6 +224,89 @@ blood__card__box__body__c1__2__txt:{
 },
 blood__card__box__body__c2__icon:{
   
+},
+centeredView: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  // width:'300px',
+  marginTop: 22
+},
+modalView: {
+  margin: 20,
+  backgroundColor: "white",
+  borderRadius: 20,
+  padding: 35,
+  width:300,
+  height:300,
+  alignItems: "center",
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5
+},
+openButton: {
+  backgroundColor: "#F194FF",
+  borderRadius: 20,
+  padding: 10,
+  elevation: 2
+},
+textStyle: {
+  color: "white",
+  fontWeight: "bold",
+  textAlign: "center"
+},
+modalText: {
+  marginBottom: 15,
+  textAlign: "center"
+},
+modal__section:{
+    flex:1,
+    alignItems:'center'
+},
+modal__section__content3:{
+    marginTop:25
+},
+modal__section__content3__btn:{
+    width:180,
+    height:45,
+    backgroundColor:'#2196F3',
+    alignItems:'center',
+    justifyContent:'center',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 1.84,
+    elevation: 3
+},
+modal__section__content3__btn__txt:{
+    color:'white',
+},
+modal__section__content4:{
+    marginTop:20
+},
+modal__section__content4__btn:{
+  width:120,
+  height:35,
+  backgroundColor:'#2196F3',
+  alignItems:'center',
+  justifyContent:'center',
+  shadowOffset: {
+    width: 0,
+    height: 2
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 1.84,
+  elevation: 3
+},
+modal__section__content4__btn__txt:{
+  color:'white',
 }
 });
 
