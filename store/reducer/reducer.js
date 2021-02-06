@@ -1,34 +1,24 @@
 
 let INITIAL_STATE ={
-//    users: [
-//        {
-//         name :'Yasir Bajwa',
-//         email: 'yasirbajwa369@gmail.com'
-//     },
-//     {
-//         name :'jhon',
-//         email: 'jhon@gmail.com'
-//     },
-//      ],
-     app_dat:[]
+  users: [{
+    name:'Yasir',
+    email:'yasirbajwa369@gmail.com'
+  }] ,
+  check_user : false,
+  product_data : []
     
 }
 
 
 export default (state = INITIAL_STATE,action) =>{
 
-              console.log('action in reducer ===>',action) 
-            //  switch (action.type) {
-            //      case 'SET_DATA':
-            //       return({
-            //           ...state,
-            //           users: [...state.users,action.data]   
-            //       })
-                  
-            //       default:
-            //         return state;
+  switch(action.type){
 
-                     
-            //  } 
-             
+    case 'PRODUCT_PAGE' : 
+    return {
+            ...state,
+            product_data : action.payload
+    } 
+  }
+  return state;       
 }

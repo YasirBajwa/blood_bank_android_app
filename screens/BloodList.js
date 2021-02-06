@@ -7,13 +7,26 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 // import {set_data} from '../store/action/action'
 import firebase from '../config/firebase';
+import { GoogleSignin,GoogleSigninButton,statusCodes,} 
+from '@react-native-community/google-signin';
+import {product_page} from '../store/action/action'
 
-const BloodList = (props) => {
+
+
+
+
+
+
+
+
+
+const BloodList = ({navigation:{navigate}},props) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [testUser,setTest] = useState(false);
   let [firebaseData,setFirebaseData] = useState([]);
- 
-  console.log('firebase data====>',firebaseData)
 
+  console.log('Redux Reducer data===>',props.users)
+ 
   useEffect( () =>{
     const arr = []
     firebase.database().ref('/').child(`users/donor_data`).on('child_added', (data)=>{
@@ -21,9 +34,49 @@ const BloodList = (props) => {
       setFirebaseData(arr);
     })
   },[])
+
+  useEffect( () =>{
+    GoogleSignin.configure({
+        webClientId: '588072920222-ous99p8hl6etdhjuv1ocs7rffe1r3r9a.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      });
+},[])
+
+
+let signIn = async () => {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+      // console.log('user===>',userInfo); 
+      setTest(true); 
+      setModalVisible(!modalVisible);
+      // console.log('modal is off now');
+       createAlert();
+   
+    }
+   catch (error) {
+      console.log('error==>',error);
+  }
+}
+const createAlert = () => {
+    Alert.alert(
+      "User Status",
+      "You have sucsessfully Login ",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
+  //  () => navigation('DetailPage')
+
+}
+
   return (
     <ScrollView > 
-{/* Modal */}
      <View >
       <Modal
         animationType="slide"
@@ -44,10 +97,18 @@ const BloodList = (props) => {
 
                    </View>
                    <View style={styles.modal__section__content3}>
-                   <TouchableOpacity style={styles.modal__section__content3__btn}>
-                    <Text style={styles.modal__section__content3__btn__txt}>Sign in with Google</Text>
-                   </TouchableOpacity>
+                   <View style={styles.modal__section__content3__btn}>
+                   <GoogleSigninButton
+                    style={{ width: 192, height: 48 }}
+                    size={GoogleSigninButton.Size.Wide}
+                    color={GoogleSigninButton.Color.Dark}
+                    onPress={signIn}
+                    // onPress={ () => navigate('UserPage')}
+                   />
+                    
                    </View>
+                   </View>
+                   
 
                    <View style={styles.modal__section__content4}>
                    <TouchableOpacity style={styles.modal__section__content4__btn}
@@ -77,6 +138,7 @@ const BloodList = (props) => {
      </View>
     {
       firebaseData && Object.values(firebaseData).map( (data,index) =>{
+            //  user__data[name,email] = data
             return <View style={styles.blood__card__section} key={index} 
                  
             >
@@ -112,14 +174,29 @@ const BloodList = (props) => {
                          <Text  style={styles.blood__card__box__body__c1__2__txt}>{data.city}</Text>
                      </View>
                  </View>
+                 {
+                   testUser === false ?  <View style={styles.blood__card__box__body__c2}>
+                   <Icon style={styles.blood__card__box__body__c2__icon} name="call" size={40}
+                       onPress={() => {
+                       setModalVisible(true);
+               }
+               }
+                   />
+ 
+                  </View>
+                   :
                  <View style={styles.blood__card__box__body__c2}>
                   <Icon style={styles.blood__card__box__body__c2__icon} name="call" size={40}
                       onPress={() => {
-                      setModalVisible(true);
+                      //  () => props.product_page(data),
+                       navigate('UserPage',{name:'Yasir Bajwa',email:'bajwa@gmail.com',data:data})
+                      ;
               }
               }
                   />
+
                  </View>
+      }
                  </View>
                </Body>
              </CardItem>
@@ -272,18 +349,10 @@ modal__section__content3:{
     marginTop:25
 },
 modal__section__content3__btn:{
-    width:180,
-    height:45,
-    backgroundColor:'#2196F3',
+    
     alignItems:'center',
     justifyContent:'center',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 1.84,
-    elevation: 3
+    
 },
 modal__section__content3__btn__txt:{
     color:'white',
@@ -311,11 +380,11 @@ modal__section__content4__btn__txt:{
 });
 
 const mapStateToProps= (state) =>({
-    // users: state.users,
+    users: state.users,
 })
 
 const mapDispatchToProps= (dispatch) =>({
-  // set_data:(data) =>dispatch(set_data(data))
+  product_page: (data) => dispatch(product_page(data)) 
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)( BloodList);
