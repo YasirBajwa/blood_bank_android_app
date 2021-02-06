@@ -1,5 +1,5 @@
 import React,{Component,useState,useEffect} from 'react';
-import { StyleSheet,Button, ScrollView, View,Text} from 'react-native';
+import { StyleSheet,Button, ScrollView, View,Text,TouchableOpacity} from 'react-native';
 import { Form, Item, Input, Label } from 'native-base';
 import firebase from '../config/firebase';
 
@@ -7,16 +7,70 @@ import firebase from '../config/firebase';
 const DonorForm = () =>{
  
   const [name, setName] = useState("");
+  const [nameError,setNameError]=useState('')
+
   const [mobileNumber, setMobileNumber] = useState("");
+  const [errorMobileNumber, setErrorMobileNumber] = useState("");
+  
   const [bloodUnit, setBloodUnit] = useState("");
+  const [errorBloodUnit, setErrorBloodUnit] = useState("");
+  
   const [address,setAdress] = useState('');
+  const [errorAddress,setErrorAdress] = useState('');
+  
   const [city, setCity] = useState("");
+  const [errorCity, setErrorCity] = useState("");
+  
   const [bloodType,setBloodType] = useState('');
+  const [errorBloodType,setErrorBloodType] = useState('');
 
 
 
   const handleSubmit = (evt) => {
        evt.preventDefault();
+       if (name === ''){
+         setNameError('Name is required');
+         return false;
+       }
+       else{
+         setNameError('')
+       }
+
+       if (mobileNumber === ''){
+        setErrorMobileNumber('Mobile Number is required');
+        return false;
+      }
+      else{
+        setErrorMobileNumber('')
+      }
+      if (bloodUnit === ''){
+        setErrorBloodUnit('Blood Unit is required');
+        return false;
+      }
+      else{
+        setErrorBloodUnit('')
+      }
+      if (address === ''){
+        setErrorAdress('Address is required');
+        return false;
+      }
+      else{
+        setErrorAdress('')
+      }
+      if (city === ''){
+        setErrorCity('City is required');
+        return false;
+      }
+      else{
+        setErrorCity('')
+      }
+      if (bloodType === ''){
+        setErrorBloodType('Blood Type is required');
+        return false;
+      }
+      else{
+        setErrorBloodType('')
+      }
       let donor_data = {
          name,
          mobileNumber,
@@ -60,27 +114,42 @@ const DonorForm = () =>{
               <Label>Full Name</Label>
               <Input  value={name} onChangeText={text  => setName(text)} />
             </Item>
+            <View><Text>{nameError}</Text></View>
             <Item floatingLabel last>
               <Label>Mobile Number</Label>
               <Input keyboardType={'numeric'} value={mobileNumber} onChangeText={text  => setMobileNumber(text)}  />
             </Item>
+            <View><Text>{errorMobileNumber}</Text></View>
             <Item floatingLabel  last>
               <Label>Enter Your Blood group</Label>
               <Input  value={bloodType} onChangeText={text  => setBloodType(text)} />
             </Item>
+            <View><Text>{errorBloodType}</Text></View>
             <Item floatingLabel last>
               <Label>Number of Blood Units</Label>
               <Input keyboardType={'numeric'} value={bloodUnit} onChangeText={text  => setBloodUnit(text)} />
             </Item>
+            <View><Text>{errorBloodUnit}</Text></View>
             <Item floatingLabel last>
               <Label>Enter Your Address</Label>
               <Input value={address} onChangeText={text  => setAdress(text)}  />
             </Item>
+            <View><Text>{errorAddress}</Text></View>
             <Item floatingLabel last>
               <Label  >Enter City</Label>
               <Input value={city} onChangeText={text  => setCity(text)} />
             </Item>
-            <Button style={styles.submit__btn} title="submit" onPress={ (e) => handleSubmit(e)}/>
+            <View><Text>{errorCity}</Text></View>
+            <View style={styles.submit__btn__section}>
+              <TouchableOpacity style={styles.submit__btn} onPress={ (e) => handleSubmit(e)}>
+                <Text style={styles.submit__btn__txt}>SUBMIT</Text>
+              </TouchableOpacity>
+            {/* <Button style={styles.submit__btn} 
+             title="submit" onPress={ (e) => handleSubmit(e)}/>  */}
+            </View>
+            <View style={{height:20}}>
+
+            </View>
           </Form>
       </View>
 
@@ -124,17 +193,20 @@ const styles = StyleSheet.create({
         width:'90%'
                          
       },
+      submit__btn__section:{
+        // marginTop:40,
+      },
       submit__btn:{
           flex:1,
-          width:150,
-          height:50,
+          width:'60%',
+          height:40,
           alignSelf:'center',
-          marginTop: 30,
+          // marginTop: 10,
           backgroundColor:'green',
           justifyContent:'center',
+          alignItems:'center',
           color:'white',
           fontSize:18,
-          marginTop:20
       },
       submit__btn__txt:{
           color:'#fff',

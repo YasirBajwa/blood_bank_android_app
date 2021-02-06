@@ -12,10 +12,14 @@ import store from './store/store';
 import NavigationPage from './config/routes';
 import ALertPage from './screens/AlertPage';
 import UserPage from './screens/UserPage';
+import LoaderExample from './screens/LoaderExample';
+import DummyForm from './screens/DummyForm';
 
 export default function App() {
   return (
     <StoreProvider store={store}>
+      {/* <LoaderExample/> */}
+      {/* <DummyForm/> */}
       <NavigationPage/>
            {/* <UserPage/> */}
       {/* <ALertPage/> */}
