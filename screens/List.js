@@ -16,7 +16,9 @@ const List = ({navigation}) => {
 
            <View style={styles.list__section__item1__content1}>
                <View>
-                   <Icon name="man" size={80}/>
+                   <Icon 
+                    onPress={() => navigation.navigate('BloodList')}
+                   name="man" size={80}/>
                </View>
                <View>
                   <Text  style={styles.list__section__item1__content1__txt}
@@ -28,7 +30,9 @@ const List = ({navigation}) => {
            </View>
            <View style={styles.list__section__item1__content2}>
                <View style={styles.list__section__item1__content2__icon}>
-                   <Icon name="add-circle" size={80}/>
+                   <Icon
+                   onPress={() => navigation.navigate('Form')}
+                   name="add-circle" size={80}/>
                </View>
                <View>
                   <Text style={styles.list__section__item1__content2__txt}

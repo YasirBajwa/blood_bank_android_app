@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "588072920222-jf7vhj0e2mvt029motvjoktnkh1fi2kr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blood_bank_app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "588072920222-omtprd4qfligdpn97et8kop0alvqjsrv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blood_bank_app",
+            "certificate_hash": "75b80dab101fcec520a4a6999f9b1bc01b5c53f9"
+          }
+        },
+        {
           "client_id": "588072920222-ous99p8hl6etdhjuv1ocs7rffe1r3r9a.apps.googleusercontent.com",
           "client_type": 3
         }
